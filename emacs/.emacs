@@ -1,0 +1,189 @@
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(setq package-archives '(("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+
+(package-initialize)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
+ '(custom-enabled-themes (quote (adwaita)))
+ '(custom-safe-themes
+   (quote
+    ("9e4db9122a0b7564a8573825975ac58d8b96b3076b358bd2a9f40cd6bc8d271d" default)))
+ '(org-latex-pdf-process
+   (quote
+    ("xelatex -interaction nonstopmode -output-directory %o %f" "bibtex %b" "xelatex -interaction nonstopmode -output-directory %o %f" "xelatex -interaction nonstopmode -output-directory %o %f")))
+ '(package-selected-packages
+   (quote
+    (robe dracula-theme flycheck lsp-ui sly lsp-mode org-re-reveal-ref rainbow-delimiters org-ref)))
+ '(scroll-bar-mode nil)
+ '(tool-bar-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Source Code Pro" :foundry "ADBO" :slant normal :weight normal :height 110 :width normal))))
+ '(rainbow-delimiters-depth-1-face ((t (:inherit rainbow-delimiters-base-face :foreground "dark cyan"))))
+ '(rainbow-delimiters-depth-2-face ((t (:inherit rainbow-delimiters-base-face :foreground "dark blue"))))
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "red"))))
+ '(rainbow-delimiters-depth-4-face ((t (:inherit rainbow-delimiters-base-face :foreground "deep sky blue"))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "dark goldenrod"))))
+ '(rainbow-delimiters-depth-6-face ((t (:inherit rainbow-delimiters-base-face :foreground "MediumOrchid4"))))
+ '(rainbow-delimiters-depth-7-face ((t (:foreground "dark green"))))
+ '(rainbow-delimiters-depth-8-face ((t (:inherit rainbow-delimiters-base-face :foreground "sienna"))))
+ '(rainbwo-delimiters-depth-1-face ((t (:foreground "red"))))
+ '(rainbwo-delimiters-depth-2-face ((t (:foreground "orange")))))
+
+;; add rainbow bracket at startup
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+(add-hook 'text-mode-hook #'toggle-truncate-lines)
+;; insert src block
+(defun org-insert-src-block (src-code-type)
+  "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
+  (interactive
+   (let ((src-code-types
+          '("emacs-lisp" "python" "C" "sh" "java" "js" "clojure" "C++" "css"
+            "calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
+            "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
+            "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
+            "scheme" "sqlite" "text")))
+     (list (ido-completing-read "Source code type: " src-code-types))))
+  (progn
+    (newline-and-indent)
+    (insert (format "#+BEGIN_SRC %s\n" src-code-type))
+    (newline-and-indent)
+    (insert "#+END_SRC\n")
+    (previous-line 2)
+    (org-edit-src-code)))
+
+
+(defun org-insert-head-html (title)
+  "Insert a `TITLE' type source code block in org-mode."
+  (interactive
+   (let ((title
+	  '("title")))
+     (list (read-string "TITLE: " title)))) 
+  (progn
+    (insert (format
+	     "#+SETUPFILE: /home/lingao/Documents/org-html-themes/setup/theme-bigblow-local.setup
+#+OPTIONS: ^:nil
+#+TITLE: %s
+#+AUTHOR: Lingao Jin
+#+EMAIL: jinlingao@outlook.com" title))
+    (backward-char)))
+
+(defun org-insert-head-latex (title)
+  "Insert a `TITLE' type source code block in org-mode."
+  (interactive
+   (let ((title
+	  '("title")))
+     (list (read-string "TITLE: " title)))) 
+  (progn
+    (insert (format
+	     "#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [a4paper]
+#+LATEX_HEADER: \\usepackage{xeCJK}
+#+LATEX_HEADER: \\usepackage[backend=bibtex]{biblatex}
+#+LATEX_HEADER: \\addbibresource{refs.bib}
+#+LATEX_COMPILER: xelatex
+
+#+OPTIONS: ^:nil
+
+#+TITLE: %s
+#+AUTHOR: Lingao Jin
+#+EMAIL: jinlingao@outlook.com" title))
+    (backward-char)))
+(require 'org-ref)
+(setq org-latex-pdf-process
+      '("xelatex -interaction nonstopmode -output-directory %o %f"
+        "bibtex %b"
+        "xelatex -interaction nonstopmode -output-directory %o %f"
+        "xelatex -interaction nonstopmode -output-directory %o %f"))
+
+;; (require 'cnfonts)
+;; (cnfonts-enable)
+
+;; Auto generated by cnfonts
+;; <https://github.com/tumashu/cnfonts>
+;; (require 'cnfonts)
+;; 让 cnfonts 随着 Emacs 自动生效。
+;; (cnfonts-enable)
+;; 让 spacemacs mode-line 中的 Unicode 图标正确显示。
+;; (cnfonts-set-spacemacs-fallback-fonts)
+
+;; evil mode
+;; (require 'evil)
+;; (evil-mode 1)
+
+;; (setq-default evil-escape-key-sequence "jk")
+;; (setq-default evil-escape-delay 0.2)
+;; (evil-escape-mode)
+;; (add-hook 'text-mode-hook #'evil-escape-mode)
+
+
+(use-package lsp-mode
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         (c++-mode . lsp)
+         )
+  :commands lsp)
+
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package company-lsp :commands company-lsp)
+
+(eval-after-load 'company
+  '(push 'company-robe company-backends))
+
+(defun rename-file-and-buffer (new-name)
+  "Renames both current buffer and file it's visiting to NEW-NAME."
+  (interactive "sNew name: ")
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not filename)
+        (message "Buffer '%s' is not visiting a file!" name)
+      (if (get-buffer new-name)
+          (message "A buffer named '%s' already exists!" new-name)
+        (progn
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil))))))
+
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer 
+	(delq (current-buffer) 
+	      (remove-if-not 'buffer-file-name (buffer-list)))))
+
+(setq inferior-lisp-program "/usr/bin/sbcl")
+
+(defun indent-buffer ()
+  (interactive)
+  (save-excursion
+    (indent-region (point-min) (point-max) nil)))
+
+(add-hook 'lisp-mode-hook
+	  (lambda ()
+	    (set (make-local-variable 'lisp-indent-function)
+		 'common-lisp-indent-function)))
+;; (require 'sly-cl-indent)
+;; (add-to-list 'sly-contribs 'sly-cl-indent)
+
+;; (setq common-lisp-style-default "sbcl")
+
+(add-hook 'ruby-mode-hook 'robe-mode)
+
+(setq backup-directory-alist `(("." . "~/.emacs_saves")))
