@@ -110,3 +110,6 @@ alias v=vim
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
+
+export VISUAL=vim
+export EDITOR="$VISUAL"
