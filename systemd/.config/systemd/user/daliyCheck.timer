@@ -2,7 +2,7 @@
 Description=Runs mytimer every day
 
 [Timer]
-OnCalendar=*-*-* 00:00:00
+OnCalendar=*-*-* 01:00:00
 Unit=daliyCheck.service
 
 [Install]
