@@ -1,0 +1,14 @@
+[Unit]
+Wants=network.target
+Before=network.target
+Description=Shadowsocksr
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/lingao/Desktop/backup/shadowsocksr/shadowsocks/local.py -c /home/lingao/Desktop/backup/shadowsocksr/user-config.json
+Restart=always
+RestartSec=30
+[Install]
+WantedBy=default.target
+
+
