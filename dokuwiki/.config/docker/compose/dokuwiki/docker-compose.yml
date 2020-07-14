@@ -1,0 +1,12 @@
+version: '2'
+services:
+  dokuwiki:
+    image: 'docker.io/bitnami/dokuwiki:0-debian-10'
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - '/home/lingao/Documents/dokuwiki:/bitnami'
+volumes:
+  dokuwiki_data:
+    driver: local

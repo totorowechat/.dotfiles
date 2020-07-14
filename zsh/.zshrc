@@ -8,6 +8,7 @@ export ZSH="/home/lingao/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+
 ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
@@ -100,7 +101,7 @@ source $ZSH/oh-my-zsh.sh
 alias pacup="sudo pacman -Syu" 
 alias ec="emacsclient -c -a emacs" 
 
-alias p="proxychains -q"
+alias p="proxychains -q "
 
 alias cnpm="npm --registry=https://registry.npm.taobao.org"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -113,3 +114,11 @@ export QT_IM_MODULE=ibus
 
 export VISUAL=vim
 export EDITOR="$VISUAL"
+
+export LC_ALL=en_US.UTF-8  
+export LANG=en_US.UTF-8
+
+export XDG_CONFIG_HOME="$HOME/.config"
+# powerline-daemon -q
+# . /usr/lib/python3.8/site-packages/powerline/bindings/zsh/powerline.zsh
+

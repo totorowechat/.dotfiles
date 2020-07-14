@@ -1,0 +1,8 @@
+[Unit]
+Description=saraba1st 
+[Timer]
+OnCalendar=*:0,15,30,45
+Unit=saraba1st.service
+
+[Install]
+WantedBy=timers.target

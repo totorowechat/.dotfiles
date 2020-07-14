@@ -5,7 +5,7 @@ Description=Shadowsocksr
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 /home/lingao/Desktop/backup/shadowsocksr/shadowsocks/local.py -c /home/lingao/Desktop/backup/shadowsocksr/user-config.json
+ExecStart=/usr/bin/python3 /home/lingao/.config/shadowsocksr/shadowsocks/local.py -c /home/lingao/.config/shadowsocksr/user-config.json
 Restart=always
 RestartSec=30
 [Install]

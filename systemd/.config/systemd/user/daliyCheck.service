@@ -1,0 +1,12 @@
+[Unit]
+Description=daliyCheck 
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/lingao/.config/zyt/zyt.py
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=default.target
+
+

@@ -3,9 +3,8 @@ Description=saraba1st forum score auto increate bash script
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/bash /home/lingao/Downloads/sara.sh
+ExecStart=/usr/bin/bash /home/lingao/.config/saraba1st/sara.sh
 Restart=on-failure
-RestartSec=30
 
 [Install]
 WantedBy=default.target
