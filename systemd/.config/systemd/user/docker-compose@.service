@@ -1,11 +1,12 @@
 [Unit]
 Description=%i service with docker compose
 # Requires=docker.service
-# After=docker.service
+After=docker.service
 
 [Service]
+
 Type=oneshot
-RemainAfterExit=true
+RemainAfterExit=yes
 WorkingDirectory=%h/.config/docker/compose/%i
 ExecStart=/usr/bin/docker-compose up -d --remove-orphans
 ExecStop=/usr/bin/docker-compose down

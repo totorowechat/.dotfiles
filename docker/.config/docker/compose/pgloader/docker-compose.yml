@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+  pgloader:
+    image: dimitri/pgloader:latest
+    environment:
+      POSTGRES_DB: ilx
+      POSTGRES_PASSWORD: wikijsrocks
+      POSTGRES_USER: wikijs
+    logging:
+      driver: "none"
+    # restart: unless-stopped
+    ports:
+           - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  redis:
+    image: 'docker.io/bitnami/redis:6.0-debian-10'
+    depends_on:
+      - db
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redis_data:/bitnami/redis/data'
+
+volumes:
+  redis_data:
+    driver: local
+  db-data:
+    driver: local

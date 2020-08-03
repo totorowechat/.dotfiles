@@ -107,6 +107,7 @@ alias cnpm="npm --registry=https://registry.npm.taobao.org"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 alias v=vim
 
+alias h="history | fzf"
 
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
