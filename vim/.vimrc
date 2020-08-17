@@ -64,9 +64,11 @@ set clipboard^=unnamed,unnamedplus
 :vnoremap <Leader>y "+y
 " tab
 
-:nmap <Leader>tn :tabnew 
+:nmap <Leader>tt :tabnew 
 :nmap <Leader>tc :tabclose<cr>
 :nmap <Leader>to :tabonly<cr>
+:nmap <Leader>tn :tabnext<cr>
+:nmap <Leader>tp :tabprevious<cr>
 
 " vim-smooth-scroll
 

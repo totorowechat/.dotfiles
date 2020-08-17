@@ -1,0 +1,19 @@
+version: '2'
+
+networks:
+  solr-network:
+    driver: bridge
+
+services:
+  solr-node1:
+    image: bitnami/solr:latest
+    networks:
+      - solr-network
+    ports:
+      - '8983:8983'
+  solr-node2:
+    image: bitnami/solr:latest
+    networks:
+      - solr-network
+    ports:
+      - '8984:8984'

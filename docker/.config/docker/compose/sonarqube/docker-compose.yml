@@ -1,0 +1,15 @@
+version: "3"
+# More info at https://github.com/oracle/opengrok/docker/
+services:
+  opengrok:
+    container_name: sonarqube
+    image: sonarqube:7.9.4-community
+    ports:
+      - "9000:9000/tcp"
+    # environment:
+      # REINDEX: '60'
+    # Volumes store your data between container upgrades
+    # volumes:
+    #    - '~/opengrok/src/:/opengrok/src/'  # source code
+    #    - '~/opengrok/etc/:/opengrok/etc/'  # folder contains configuration.xml
+    #    - '~/opengrok/data/:/opengrok/data/'  # index and other things for source code
