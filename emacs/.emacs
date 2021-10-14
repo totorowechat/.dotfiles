@@ -1,269 +1,190 @@
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(setq package-archives '(("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+;; -*- lexical-binding: t; -*-
 
-(package-initialize)
+;; (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+;;                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 
+;; Disable tool bar, menu bar, scroll bar.
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+
+;; show-paren-mode allows one to see matching pairs of parentheses
+;; and other characters. When point is on the opening character of
+;; one of the paired characters, the other is highlighted. When the
+;; point is after the closing character of one of the paired
+;; characters, the other is highlighted.
+(show-paren-mode 1)
+
+;; By default, there’s a small delay before showing a matching
+;; parenthesis. It can be deactivated with the following (which you have
+;; to do before activating show-paren-mode in your .emacs):
+(setq show-paren-delay 0)
+
+
+
+(require 'package)
+(package-initialize) ;; You might already have this line
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
- '(custom-enabled-themes (quote (adwaita)))
- '(custom-safe-themes
-   (quote
-    ("9e4db9122a0b7564a8573825975ac58d8b96b3076b358bd2a9f40cd6bc8d271d" default)))
- '(org-latex-pdf-process
-   (quote
-    ("xelatex -interaction nonstopmode -output-directory %o %f" "bibtex %b" "xelatex -interaction nonstopmode -output-directory %o %f" "xelatex -interaction nonstopmode -output-directory %o %f")))
  '(package-selected-packages
-   (quote
-    (java-snippets yasnippet cider smex use-package posframe pyim robe dracula-theme flycheck lsp-ui sly lsp-mode org-re-reveal-ref rainbow-delimiters org-ref)))
- '(scroll-bar-mode nil)
- '(tool-bar-mode nil))
+   '(recentf-mode winner-mode exec-path-from-shell cider yasnippet-snippets paredit orderless vertico smex snails yasnippet multiple-cursors sly all-the-icons markdown-mode web-mode use-package magit helm-dash dash-at-point)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Source Code Pro" :foundry "ADBO" :slant normal :weight normal :height 110 :width normal))))
- '(rainbow-delimiters-depth-1-face ((t (:inherit rainbow-delimiters-base-face :foreground "dark cyan"))))
- '(rainbow-delimiters-depth-2-face ((t (:inherit rainbow-delimiters-base-face :foreground "dark blue"))))
- '(rainbow-delimiters-depth-3-face ((t (:foreground "red"))))
- '(rainbow-delimiters-depth-4-face ((t (:inherit rainbow-delimiters-base-face :foreground "deep sky blue"))))
- '(rainbow-delimiters-depth-5-face ((t (:foreground "dark goldenrod"))))
- '(rainbow-delimiters-depth-6-face ((t (:inherit rainbow-delimiters-base-face :foreground "MediumOrchid4"))))
- '(rainbow-delimiters-depth-7-face ((t (:foreground "dark green"))))
- '(rainbow-delimiters-depth-8-face ((t (:inherit rainbow-delimiters-base-face :foreground "sienna"))))
- '(rainbwo-delimiters-depth-1-face ((t (:foreground "red"))))
- '(rainbwo-delimiters-depth-2-face ((t (:foreground "orange")))))
+ )
 
-;; add rainbow bracket at startup
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-
-(add-hook 'text-mode-hook #'toggle-truncate-lines)
-;; insert src block
-(defun org-insert-src-block (src-code-type)
-  "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
-  (interactive
-   (let ((src-code-types
-          '("emacs-lisp" "python" "C" "sh" "java" "js" "clojure" "C++" "css"
-            "calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
-            "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
-            "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
-            "scheme" "sqlite" "text")))
-     (list (ido-completing-read "Source code type: " src-code-types))))
-  (progn
-    (newline-and-indent)
-    (insert (format "#+BEGIN_SRC %s\n" src-code-type))
-    (newline-and-indent)
-    (insert "#+END_SRC\n")
-    (previous-line 2)
-    (org-edit-src-code)))
-
-
-(defun org-insert-head-html (title)
-  "Insert a `TITLE' type source code block in org-mode."
-  (interactive
-   (let ((title
-	  '("title")))
-     (list (read-string "TITLE: " title)))) 
-  (progn
-    (insert (format
-	     "#+SETUPFILE: /home/lingao/Documents/org-html-themes/setup/theme-bigblow-local.setup
-#+OPTIONS: ^:nil
-#+TITLE: %s
-#+AUTHOR: Lingao Jin
-#+EMAIL: jinlingao@outlook.com" title))
-    (backward-char)))
-
-(defun org-insert-head-latex (title)
-  "Insert a `TITLE' type source code block in org-mode."
-  (interactive
-   (let ((title
-	  '("title")))
-     (list (read-string "TITLE: " title)))) 
-  (progn
-    (insert (format
-	     "#+LATEX_CLASS: article
-#+LATEX_CLASS_OPTIONS: [a4paper]
-#+LATEX_HEADER: \\usepackage{xeCJK}
-#+LATEX_HEADER: \\usepackage[backend=bibtex]{biblatex}
-#+LATEX_HEADER: \\addbibresource{refs.bib}
-#+LATEX_COMPILER: xelatex
-
-#+OPTIONS: ^:nil
-
-#+TITLE: %s
-#+AUTHOR: Lingao Jin
-#+EMAIL: jinlingao@outlook.com" title))
-    (backward-char)))
-(require 'org-ref)
-(setq org-latex-pdf-process
-      '("xelatex -interaction nonstopmode -output-directory %o %f"
-        "bibtex %b"
-        "xelatex -interaction nonstopmode -output-directory %o %f"
-        "xelatex -interaction nonstopmode -output-directory %o %f"))
-
-;; (require 'cnfonts)
-;; (cnfonts-enable)
-
-;; Auto generated by cnfonts
-;; <https://github.com/tumashu/cnfonts>
-;; (require 'cnfonts)
-;; 让 cnfonts 随着 Emacs 自动生效。
-;; (cnfonts-enable)
-;; 让 spacemacs mode-line 中的 Unicode 图标正确显示。
-;; (cnfonts-set-spacemacs-fallback-fonts)
-
-;; evil mode
-;; (require 'evil)
-;; (evil-mode 1)
-
-;; (setq-default evil-escape-key-sequence "jk")
-;; (setq-default evil-escape-delay 0.2)
-;; (evil-escape-mode)
-;; (add-hook 'text-mode-hook #'evil-escape-mode)
-
-
-; (use-package lsp-mode
-;   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-;   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-;          (c++-mode . lsp)
-;          )
-;   :commands lsp)
-
-; (use-package lsp-ui :commands lsp-ui-mode)
-; (use-package company-lsp :commands company-lsp)
-
-; (eval-after-load 'company
-;   '(push 'company-robe company-backends))
-
-(defun rename-file-and-buffer (new-name)
-  "Renames both current buffer and file it's visiting to NEW-NAME."
-  (interactive "sNew name: ")
-  (let ((name (buffer-name))
-        (filename (buffer-file-name)))
-    (if (not filename)
-        (message "Buffer '%s' is not visiting a file!" name)
-      (if (get-buffer new-name)
-          (message "A buffer named '%s' already exists!" new-name)
-        (progn
-          (rename-file filename new-name 1)
-          (rename-buffer new-name)
-          (set-visited-file-name new-name)
-          (set-buffer-modified-p nil))))))
-
-(defun kill-other-buffers ()
-  "Kill all other buffers."
-  (interactive)
-  (mapc 'kill-buffer 
-	(delq (current-buffer) 
-	      (remove-if-not 'buffer-file-name (buffer-list)))))
-
-(setq inferior-lisp-program "/usr/bin/sbcl")
-
-(defun indent-buffer ()
-  (interactive)
-  (save-excursion
-    (indent-region (point-min) (point-max) nil)))
-
-(add-hook 'lisp-mode-hook
-	  (lambda ()
-	    (set (make-local-variable 'lisp-indent-function)
-		 'common-lisp-indent-function)))
-;; (require 'sly-cl-indent)
-;; (add-to-list 'sly-contribs 'sly-cl-indent)
-
-;; (setq common-lisp-style-default "sbcl")
-
-(add-hook 'ruby-mode-hook 'robe-mode)
-
-(setq backup-directory-alist `(("." . "~/.emacs_saves")))
-(global-visual-line-mode t)
-
-(use-package pyim
-  :ensure nil
-  :demand t
+(use-package multiple-cursors
+  :ensure t
   :config
-  ;; 激活 basedict 拼音词库，五笔用户请继续阅读 README 
-  (use-package pyim-basedict
-    :ensure nil
-    :config (pyim-basedict-enable))
+  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
 
-  (setq default-input-method "pyim")
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
 
-  ;; 我使用全拼
-  (setq pyim-default-scheme 'microsoft-shuangpin)
-
-  ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
-  ;; 我自己使用的中英文动态切换规则是：
-  ;; 1. 光标只有在注释里面时，才可以输入中文。
-  ;; 2. 光标前是汉字字符时，才能输入中文。
-  ;; 3. 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文。
-
-  ;; (setq-default pyim-english-input-switch-functions
-  ;;               '(pyim-probe-dynamic-english
-  ;;                 pyim-probe-isearch-mode
-  ;;                 pyim-probe-program-mode
-  ;;                 pyim-probe-org-structure-template))
-
-  (setq-default pyim-punctuation-half-width-functions
-                '(pyim-probe-punctuation-line-beginning
-                  pyim-probe-punctuation-after-punctuation))
-
-  ;; 开启拼音搜索功能
-  (pyim-isearch-mode 1) 
-
-  ;; 使用 popup-el 来绘制选词框, 如果用 emacs26, 建议设置
-  ;; 为 'posframe, 速度很快并且菜单不会变形，不过需要用户
-  ;; 手动安装 posframe 包。
-  (setq pyim-page-tooltip 'posframe) ;; 
-
-  ;; 选词框显示5个候选词
-  (setq pyim-page-length 5)
-
+(use-package company
+  :ensure t
   :bind
-  (("M-j" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合
-   ("C-;" . pyim-delete-word-from-personal-buffer)))
+  ("M-TAB" . company-complete) ;; ALT-TAB
+  (:map company-active-map
+         ("C-n" . company-select-next)
+         ("C-p" . company-select-previous))
+  :hook
+  ((cider-repl-mode . company-mode)
+   (cider-mode . company-mode))
+  :config
+  (setq company-idle-delay 0.3))
 
-(pdf-loader-install)
-
-(require 'smex) ; Not needed if you use package.el
-(smex-initialize) ; Can be omitted. This might cause a (minimal) delay
-					; when Smex is auto-initialized on its first run.
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; This is your old M-x.
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-
-(recentf-mode 1)
-(setq recentf-max-menu-items 25)
-(setq recentf-max-saved-items 25)
-(global-set-key "\C-x\ \C-r" 'recentf-open-files)
-
-(setq org-agenda-files '("~/Documents/gtd/inbox.org"
-                         "~/Documents/gtd/gtd.org"
-                         "~/Documents/gtd/tickler.org"))
-(setq org-capture-templates '(("t" "Todo [inbox]" entry
-                               (file+headline "~/Documents/gtd/inbox.org" "Tasks")
-                               "* TODO %i%?")
-                              ("T" "Tickler" entry
-                               (file+headline "~/Documents/gtd/tickler.org" "Tickler")
-                               "* %i%? \n %U")))
-
-(setq org-refile-targets '(("~/Documents/gtd/gtd.org" :maxlevel . 3)
-                           ("~/Documents/gtd/someday.org" :level . 1)
-                           ("~/Documents/gtd/tickler.org" :maxlevel . 2)))
 
 (use-package yasnippet
+  :ensure t
+  :bind
+  ("C-c y s" . yas-insert-snippet)
+  ("C-c y v" . yas-visit-snippet-file)
   :config
-  (yas-reload-all)
-  (add-hook 'java-mode-hook #'yas-minor-mode))
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
+  (yas-global-mode 1))
+
+(use-package magit
+  :ensure t)
+
+(use-package smex
+  :ensure t
+  :config
+  (global-set-key (kbd "M-x") 'smex)
+  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+  ;; This is your old M-x.
+  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
+
+;; Enable vertico
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode)
+
+  ;; Grow and shrink the Vertico minibuffer
+  ;; (setq vertico-resize t)
+
+  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+  ;; (setq vertico-cycle t)
+  )
+
+(use-package orderless
+  :init
+  (setq completion-styles '(orderless)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
+  :ensure t
+  :init
+  (savehist-mode))
+
+;; A few more useful configurations...
+(use-package emacs
+  :init
+  ;; Add prompt indicator to `completing-read-multiple'.
+  ;; Alternatively try `consult-completing-read-multiple'.
+  (defun crm-indicator (args)
+    (cons (concat "[CRM] " (car args)) (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+  ;; Do not allow the cursor in the minibuffer prompt
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+  ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
+  ;; Vertico commands are hidden in normal buffers.
+  ;; (setq read-extended-command-predicate
+  ;;       #'command-completion-default-include-p)
+
+  ;; Enable recursive minibuffers
+  (setq enable-recursive-minibuffers t))
+
+;; paredit
+
+(use-package paredit
+  :ensure t
+  :config
+  (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+  :init
+  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+  (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+  (add-hook 'clojure-mode-hook          #'enable-paredit-mode)
+  (add-hook 'scheme-mode-hook           #'enable-paredit-mode))
+
+;; sly
+(use-package sly
+  :ensure t
+  :config
+  (setq inferior-lisp-program "/opt/homebrew/bin/sbcl"))
+
+;; (use-package clojure-mode
+;;   :ensure t
+;;   :mode (("\\.clj\\'" . clojure-mode)
+;;          ("\\.edn\\'" . clojure-mode))
+;;   :init
+;;   ; (add-hook 'clojure-mode-hook #'yas-minor-mode)         
+;;   ; (add-hook 'clojure-mode-hook #'linum-mode)             
+;;   ;; (add-hook 'clojure-mode-hook #'subword-mode)           
+;;   ;; (add-hook 'clojure-mode-hook #'smartparens-mode)       
+;;   ;; (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
+;;   ;; (add-hook 'clojure-mode-hook #'eldoc-mode)             
+;;   ;; (add-hook 'clojure-mode-hook #'idle-highlight-mode)
+;;   )
+
+(use-package cider
+  :ensure t)
+
+(use-package exec-path-from-shell
+  :ensure t
+  :init
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+
+(use-package winner
+  :ensure t
+  :init
+  (winner-mode 1))
+
+(use-package recentf
+  :ensure t
+  :init
+  (recentf-mode 1))
