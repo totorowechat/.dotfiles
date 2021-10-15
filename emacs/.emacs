@@ -23,6 +23,7 @@
 
 
 (require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize) ;; You might already have this line
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
