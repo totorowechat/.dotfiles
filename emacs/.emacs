@@ -189,3 +189,8 @@
   :ensure t
   :init
   (recentf-mode 1))
+
+(use-package citre
+  :ensure t
+  :init
+  (require 'citre-config))
